@@ -4,35 +4,35 @@ networks:
     wikinet:
       driver: bridge
 volumes:
-    xxxxxx-pgdata:
+    pgdata:
 
 name: xxxxxx
 services:
     db:
-        container_name: db-xxxxxx
+        container_name: xxxxxx-db
         environment:
             - POSTGRES_DB=${xxxxxx_DB_NAME}
             - POSTGRES_USER=${xxxxxx_DB_USER}
             - POSTGRES_PASSWORD=${xxxxxx_DB_PASSWORD}
         volumes:
-            - xxxxxx-pgdata:/var/lib/postgresql/data
+            - pgdata:/var/lib/postgresql/data
         restart: unless-stopped
         hostname: db
         networks:
             - wikinet
         image: postgres:15.2
     wiki:
-        container_name: wiki-xxxxxx
+        container_name: xxxxxx-wiki
         environment:
             - DB_TYPE=postgres
-            - DB_HOST=db-xxxxxx
+            - DB_HOST=db
             - DB_PORT=5432
             - DB_PASS=${xxxxxx_DB_PASSWORD}
             - DB_USER=${xxxxxx_DB_USER}
             - DB_NAME=${xxxxxx_DB_NAME}
             - UPGRADE_COMPANION=1
         restart: unless-stopped
-        hostname: wiki-xxxxxx
+        hostname: xxxxxx
         networks:
             - wikinet
         depends_on:
